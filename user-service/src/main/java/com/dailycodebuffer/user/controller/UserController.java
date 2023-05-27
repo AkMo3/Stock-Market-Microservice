@@ -1,11 +1,13 @@
 package com.dailycodebuffer.user.controller;
 
-import com.dailycodebuffer.user.VO.ResponseTemplateVO;
+import com.dailycodebuffer.user.VO.Order;
+import com.dailycodebuffer.user.VO.StockData;
 import com.dailycodebuffer.user.entity.User;
+import com.dailycodebuffer.user.entity.UserStockData;
 import com.dailycodebuffer.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,10 +25,15 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseTemplateVO getUserWithDepartment(@PathVariable("id") Long userId) {
+    public ResponseEntity<StockData> getUserWithStocks(@PathVariable("id") Long userId) {
         log.info("Inside getUserWithDepartment of UserController");
-        return userService.getUserWithDepartment(userId);
+        StockData stockData = userService.getUserWithStocks(userId);
+        return ResponseEntity.ok(stockData);
     }
 
+    @PostMapping("/transaction/")
+    public ResponseEntity<UserStockData> registerTransaction(Order order) {
+        return ResponseEntity.ok(userService.registerTransaction(order));
+    }
 
 }

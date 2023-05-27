@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: USER-SERVICE
+    metadata-map:
+      metrics.path: /actuator/prometheus
   zipkin:
     base-url: http://127.0.0.1:9411/
 
@@ -11,10 +13,24 @@ eureka:
   instance:
     preferIpAddress: true
     hostname: eureka-0
-    metrics.path: /actuator/prometheus
+    metadata-map:
+      metrics.path: /actuator/prometheus
   client:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
       defaultZone: http://eureka-0.eureka.default.svc.cluster.local:8761/eureka
-   
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: [ "health", "prometheus", "metrics" ]
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
