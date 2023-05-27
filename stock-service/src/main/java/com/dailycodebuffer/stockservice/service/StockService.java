@@ -50,7 +50,7 @@ public class StockService {
     public StockOrder executeOrder(@RequestBody OrderRequest order) throws InvalidCustomerException, InvalidStockException {
         String orderType = order.getOrderType();
         Stock stock = findStockById(order.getStockId());
-        ResponseEntity<Boolean> customer = restTemplate.getForEntity("http://USER-SERVICE/users/exists/" + order.getCustomerId(),
+        ResponseEntity<Boolean> customer = restTemplate.getForEntity("http://user-service-lb:80/users/exists/" + order.getCustomerId(),
                 Boolean.class);
         if (customer.getStatusCode() != HttpStatus.OK || customer.getBody().equals(Boolean.FALSE))
             throw new InvalidCustomerException("No customer found with id: {" + order.getCustomerId() + "}");
@@ -74,7 +74,7 @@ public class StockService {
 
         customerStockOrder = orderRepository.save(customerStockOrder);
         ResponseEntity<Boolean> result =
-                restTemplate.postForEntity("http://USER-SERVICE/users/transaction/", customerStockOrder, Boolean.class);
+                restTemplate.postForEntity("http://user-service-lb:80/users/transaction/", customerStockOrder, Boolean.class);
 
         if (result.getStatusCode() != HttpStatus.ACCEPTED) throw new InvalidCustomerException("Some error occurred");
         return customerStockOrder;

@@ -49,7 +49,7 @@ public class UserService {
         stockData.setUser(user);
 
         List<Stock> userStocks = new ArrayList<>();
-        ResponseEntity<List> stockNameResponse = restTemplate.postForEntity("http://STOCK-SERVICE/stock/name", userStocksId, List.class);
+        ResponseEntity<List> stockNameResponse = restTemplate.postForEntity("http://stock-service-lb:80/stock/name", userStocksId, List.class);
         if (stockNameResponse.getStatusCode() != HttpStatus.OK) {
             throw new NoSuchElementException("Invalid request");
         }
