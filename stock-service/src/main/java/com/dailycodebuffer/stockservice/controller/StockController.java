@@ -1,17 +1,16 @@
 package com.dailycodebuffer.stockservice.controller;
 
 import com.dailycodebuffer.stockservice.dto.OrderRequest;
-import com.dailycodebuffer.stockservice.entity.Order;
+import com.dailycodebuffer.stockservice.entity.StockOrder;
 import com.dailycodebuffer.stockservice.dto.StockDto;
 import com.dailycodebuffer.stockservice.entity.Stock;
 import com.dailycodebuffer.stockservice.service.StockService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,6 +20,7 @@ import java.util.List;
 public class StockController {
 
     public final StockService stockService;
+    ObjectMapper mapper = new ObjectMapper();
 
     @PostMapping("/")
     public Stock saveStock(StockDto stockDto) {
@@ -35,9 +35,15 @@ public class StockController {
     }
 
     @PostMapping("/order")
-    public ResponseEntity<Order> executeOrder(OrderRequest orderRequest) {
-        Order order = stockService.executeOrder(orderRequest);
-        return ResponseEntity.ok(order);
+    public ResponseEntity<StockOrder> executeOrder(@RequestBody OrderRequest orderRequest) {
+        try {
+            System.out.println(" Request: \n" + mapper.writeValueAsString(orderRequest));
+        }
+        catch (Exception e) {
+            // Do noting
+        }
+        StockOrder stockOrder = stockService.executeOrder(orderRequest);
+        return ResponseEntity.ok(stockOrder);
     }
 
     @PostMapping("/name")

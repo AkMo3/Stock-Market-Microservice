@@ -22,6 +22,12 @@ public class Stock {
         this.volume = dto.getVolume();
     }
 
+    public Stock(String stockName, Double stockPrice, Long volume) {
+        this.stockName = stockName;
+        this.stockPrice = stockPrice;
+        this.volume = volume;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long stockId;

@@ -1,6 +1,5 @@
 package com.dailycodebuffer.stockservice.dto;
 
-import com.dailycodebuffer.stockservice.entity.Order;
 import lombok.Data;
 
 @Data
@@ -8,7 +7,7 @@ public class OrderRequest {
     Long stockId;
     Integer quantity;
     Long customerId;
-    OrderRequest.OrderType orderType;
+    String orderType;
     Double stockPrice;
 
     public enum OrderType {
