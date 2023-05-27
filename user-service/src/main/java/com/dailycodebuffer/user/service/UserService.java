@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -34,8 +33,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User findUserById(Long userId) throws NoSuchElementException {
-        return userRepository.findByUserId(userId).orElseThrow();
+    public User findUserById(Long userId) {
+        return userRepository.findByUserId(userId).orElse(null);
     }
 
     public StockData getUserWithStocks(Long userId) throws NoSuchElementException {
@@ -76,7 +75,8 @@ public class UserService {
         ArrayList<UserStockData> currentOwnedStock = new ArrayList<>(user.getOwnedStocks());
         currentOwnedStock.add(stockData);
         user.setOwnedStocks(currentOwnedStock);
+        stockData = userStockDataRepository.save(stockData);
         userRepository.save(user);
-        return userStockDataRepository.save(stockData);
+        return stockData;
     }
 }

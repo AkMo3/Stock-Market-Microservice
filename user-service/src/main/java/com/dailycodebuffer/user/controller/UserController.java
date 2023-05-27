@@ -31,9 +31,17 @@ public class UserController {
         return ResponseEntity.ok(stockData);
     }
 
+    @GetMapping("/exists/{id}")
+    public ResponseEntity<Boolean> checkCustomerExist(@PathVariable("id") Long userId) {
+        log.info("Inside checkCustomerExist of UserController");
+        Boolean exist = userService.findUserById(userId) != null;
+        return ResponseEntity.ok(exist);
+    }
+
     @PostMapping("/transaction/")
-    public ResponseEntity<UserStockData> registerTransaction(Order order) {
-        return ResponseEntity.ok(userService.registerTransaction(order));
+    public ResponseEntity<Boolean> registerTransaction(@RequestBody Order order) {
+        userService.registerTransaction(order);
+        return ResponseEntity.accepted().body(Boolean.TRUE);
     }
 
 }

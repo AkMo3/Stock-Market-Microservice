@@ -7,7 +7,7 @@ public class Order {
     Long stockId;
     Integer quantity;
     Long customerId;
-    OrderType orderType;
+    String orderType;
     Double stockPrice;
 
     public enum OrderType {
