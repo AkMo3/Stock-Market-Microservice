@@ -1,0 +1,39 @@
+server:
+  port: 9295
+
+spring:
+  application:
+    name: HYSTRIX-DASHBOARD
+
+
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: "*"
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: [ "health", "prometheus", "metrics" ]
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+
+
+eureka:
+  instance:
+    preferIpAddress: true
+    hostname: eureka-0
+    metadata-map:
+      metrics.path: /actuator/prometheus
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://eureka-0.eureka.default.svc.cluster.local:8761/eureka
+   
